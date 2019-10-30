@@ -1,7 +1,7 @@
 package main
 
 import (
-	"MimojaFirmwareToolkit/pkg/Common"
+	"github.com/Mimoja/MFT-Common"
 	"context"
 	"github.com/hillu/go-yara"
 	"io/ioutil"
@@ -23,34 +23,36 @@ func analyse(entry MFTCommon.FlashImage) error {
 		return err
 	}
 
-	agesa, err := MFTCommon.AnalyseAGESA(Bundle.Log.WithField("entry", entry), firmwareBytes)
+	agesa, err := AnalyseAGESA(Bundle.Log.WithField("entry", entry), firmwareBytes)
 	if err != nil {
 		Bundle.Log.WithField("entry", entry).WithError(err).Errorf("could not read agesa: %v", err)
 	}
 
-	firmware, err := MFTCommon.AnalyseAMDFW(Bundle.Log.WithField("entry", entry), firmwareBytes)
+	firmware, err := AnalyseAMDFW(Bundle.Log.WithField("entry", entry), firmwareBytes)
 	if err != nil {
 		Bundle.Log.WithField("entry", entry).WithError(err).Errorf("could not read amd firmware: %v", err)
 	}
 
+	amdfw := &AMDFirmware{}
+
 	if agesa != nil {
-		entry.AMD = &MFTCommon.AMDFirmware{
-			AGESA: agesa,
-		}
+		entry.AMD = amdfw
+		amdfw.AGESA = agesa
 	}
+
 	if firmware != nil {
 		if entry.AMD == nil {
-			entry.AMD = &MFTCommon.AMDFirmware{}
+			entry.AMD = amdfw
 		}
 
-		entry.AMD.Firmware = MFTCommon.ConvertAMDFWToMFT(firmware)
+		amdfw.Firmware = ConvertAMDFWToMFT(firmware)
 
 		Bundle.Log.WithField("entry", entry).Info("Storing into DB")
 
 		for _, rom := range firmware.Roms {
 			for _, directory := range rom.Directories {
 				for _, entry := range directory.Entries {
-					mftEntry := MFTCommon.ConvertAMDEntryToMFT(entry)
+					mftEntry := ConvertAMDEntryToMFT(entry)
 					id := mftEntry.ID.GetID()
 					entryType := "amdentry"
 

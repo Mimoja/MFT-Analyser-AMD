@@ -1,7 +1,7 @@
 package main
 
 import (
-	"MimojaFirmwareToolkit/pkg/Common"
+	"github.com/Mimoja/MFT-Common"
 	"encoding/json"
 )
 
@@ -9,7 +9,7 @@ var Bundle MFTCommon.AppBundle
 
 func main() {
 	Bundle = MFTCommon.Init("AMDEntryTableAnalyser")
-	MFTCommon.SetupYaraForAMD(Bundle.Log)
+	SetupYaraForAMD(Bundle.Log)
 
 	Bundle.MessageQueue.BiosImagesQueue.RegisterCallback("PSPAnalyser", func(payload string) error {
 
