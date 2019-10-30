@@ -2,10 +2,6 @@ module github.com/Mimoja/MFT-Analyser-AMD
 
 go 1.13
 
-replace github.com/Mimoja/MFT-Common => ../../MFT-Common
-
-replace github.com/Mimoja/amdfw => ../../amdfw
-
 require (
 	github.com/Mimoja/MFT-Common v0.0.0-20191030110314-fb492a19ad43
 	github.com/hillu/go-yara v1.1.0
