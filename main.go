@@ -11,7 +11,7 @@ func main() {
 	Bundle = MFTCommon.Init("AMDEntryTableAnalyser")
 	SetupYaraForAMD(Bundle.Log)
 
-	Bundle.MessageQueue.BiosImagesQueue.RegisterCallback("PSPAnalyser", func(payload string) error {
+	Bundle.MessageQueue.BiosImagesQueue.RegisterCallback("AMDAnalyser", func(payload string) error {
 
 		Bundle.Log.WithField("payload", payload).Info("Got new Message!")
 		var file MFTCommon.FlashImage
