@@ -4,7 +4,7 @@ go 1.13
 
 require (
 	github.com/Mimoja/MFT-Common v0.0.0-20191030115252-780819867130
-	github.com/hillu/go-yara v1.1.0
+	github.com/hillu/go-yara/v4 v4.0.2
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/magiconair/properties v1.8.1 // indirect
 	github.com/mimoja/amdfw v0.0.0-20191029164819-937d6299157c

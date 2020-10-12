@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/Mimoja/MFT-Common"
-	"github.com/hillu/go-yara"
+	"github.com/hillu/go-yara/v4"
 	"github.com/mimoja/amdfw"
 	"github.com/sirupsen/logrus"
 	"io/ioutil"
@@ -38,7 +38,8 @@ func SetupYaraForAMD(Log *logrus.Logger) {
 func AnalyseAGESA(Log *logrus.Entry, firmwareBytes []byte) (agesas []MFTCommon.AMDAGESA, err error) {
 
 	Log.Debug("Scanning for AGESA")
-	matches, err := yaraAMDRules.ScanMem(firmwareBytes, 0, 0)
+	var matches yara.MatchRules
+	err = yaraAMDRules.ScanMem(firmwareBytes, 0, 0, &matches)
 	if err != nil {
 		Log.Errorf("could not scan with yara %v", err)
 		return nil, err
